@@ -4,10 +4,12 @@ class TocadorDeMusica {
 
     private $musicas; 
     private $historico;
+    private $filaDownloads;
 
    public function __construct(){
         $this->musicas = new SplDoublyLinkedList();
-        $this->historico = new SplStack();
+        $this->historico = new SplStack(); //pilha
+        $this->filaDownloads = new SplQueue();
         $this->musicas->rewind();
     }
 
@@ -41,7 +43,7 @@ class TocadorDeMusica {
             echo 'Erro, não existe música para ser tocada <br>';
         }else{
             echo 'Tocando música: '.$this->musicas->current().'<br>';
-            $this->historico->push($this->musicas->current());
+            $this->historico->push($this->musicas->current()); //lifo
         }
     }
 
@@ -73,6 +75,24 @@ class TocadorDeMusica {
 
     public function tamanhoDaLista(){
         echo 'Existem '.$this->musicas->count().' músicas na lista.';
+    }
+
+    //fifo
+    public function baixarMusicas(){
+
+        if($this->musicas->count() > 0) {
+
+            for($this->musicas->rewind(); $this->musicas->valid(); $this->musicas->next()) {
+                    $this->filaDeDownloads->push($this->musicas->current());
+            }
+            
+            for($this->filaDeDownloads->rewind(); $this->filaDeDownloads->valid(); $this->filaDeDownloads->next()) {
+                    echo "Baixando: " . $this->filaDeDownloads->current() . "...<br>";
+            }
+            
+            } else {
+                echo "Nenhuma música encontrada para baixar<br>";
+            }
     }
 
     
